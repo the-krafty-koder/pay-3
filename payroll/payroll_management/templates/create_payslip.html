@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block title %}
+<title>Provisional PaySlip</title>
+{% endblock %}
+{% block body %}
+          <div class="ui grid">
+            <div class="row">
+              <div class="three wide column"></div>
+              <div class="twelve wide column">
+                <h3 class="ui" style="margin-left: 2%;">Provisional PaySlip</h3>
+                <div class="ui segment" id="selection-drop">
+                  <form class="ui form" action="" method="post">
+                    <div class="ui raised blue segment">
+                      <h4 class="ui dividing header" >PaySlip Information</h4>
+                      <div class="field">
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label>Employee</label>
+                            {{ form.employee }}
+                          </div>
+                          <div class="four wide field"></div>
+                          <div class="six wide field ">
+                            <label>Date Created</label>
+                            {{ form.date_created }}
+                          </div>
+                        </div>
+
+                      </div>
+                      <h4 class="ui dividing header" >Earnings</h4>
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label> Basic </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field right floated">
+                          {{ form.basic_salary }}
+                        </div>
+                      </div>
+		      <b><label style="font-size:95%">Allowances</label></b>
+                      <div class="fields">
+
+
+		                {% for key in custom_allowance %}
+		                <div class="four wide field">
+		                  <label>{{ key.name }}</label>
+		                  <input type="text" value="{{ key.amount }}">
+		                </div>
+		                {% endfor %}
+
+
+
+                      </div>
+		      <div class="fields">
+                        <div class="six wide field">
+                          <label> Total Allowances </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="right floated six wide field ">
+                          {{ form.total_allowances }}
+                        </div>
+                      </div>
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label> Gross Salary </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="right floated six wide field ">
+                          {{ form.gross_salary }}
+                        </div>
+                      </div>
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label>NSSF</label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field">
+                          {{ form.nssf }}
+                        </div>
+                      </div>
+                      <div class="right floated fields">
+                        <div class="six wide field">
+                        </div>
+                        <div class="four wide field">
+                        </div>
+                        <div class="six wide field right floated">
+                          <button id="add_calc" class="ui blue button" data-toggle="modal" data-target="#allowance-modal"> Add Allowance</button>
+
+                        </div>
+                      </div>
+                      <h4 class="ui dividing header" >Taxation</h4>
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label> Taxable Income </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field right floated">
+                          {{ form.taxable }}
+                        </div>
+                      </div>
+
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label> Tax Charged </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field right floated">
+                          {{ form.tax_charged }}
+                        </div>
+                      </div>
+
+                      <div class="fields">
+                        <div class="six wide field">
+                          <label> Relief </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field right floated">
+                          {{ form.relief }}
+                        </div>
+                      </div>
+		      <div class="fields">
+                        <div class="six wide field">
+                          <label> PAYE </label>
+                        </div>
+                        <div class="four wide field"></div>
+                        <div class="six wide field right floated">
+                          {{ form.paye }}
+                        </div>
+                      </div>
+
+                      <h4 class="ui dividing header" >Deductions</h4>
+                      <div class="field">
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label>NHIF</label>
+                          </div>
+                          <div class="four wide field"></div>
+                          <div class="six wide field right floated">
+                            {{ form.nhif }}
+                          </div>
+                        </div>
+                        <div class="fields">
+                          {% for key in custom_deduction %}
+                          <div class="four wide field">
+                            <label>{{ key.name }}</label>
+                            <input type="text" value="{{ key.amount }}">
+                          </div>
+                          {% endfor %}
+                        </div>
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label> Total Deductions </label>
+                          </div>
+                          <div class="four wide field"></div>
+                          <div class="six wide field right floated">
+                            {{ form.total_deductions }}
+                          </div>
+                        </div>
+                        <div class="right floated fields">
+                          <div class="six wide field">
+                          </div>
+                          <div class="four wide field">
+                          </div>
+                          <div class="six wide field right floated">
+                            <button id="add_calc2" class="ui blue button" data-toggle="modal" data-target="#deduction-modal"> Add Deduction</button>
+
+                          </div>
+                        </div>
+
+                      </div>
+                      <h4 class="ui dividing header" >Net</h4>
+                      <div class="field">
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label>Net Salary</label>
+                          </div>
+                          <div class="four wide field"></div>
+                          <div class="right floated six wide field ">
+                            {{ form.net_salary }}
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                    <input type="submit" class="ui fluid blue button" name="final_button" value="Create PaySlip"/>
+                    {% csrf_token %}
+                  </form>
+                  <div class="modal fade" id="allowance-modal" tabindex="-1" role="dialog" aria-labelledby="allowance-modalTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="subject-modalTitle">Add Allowance</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="ui form" method="post">
+                              <div class="fields">
+                                <div class="six wide field">
+                                  <label> Name </label>
+                                </div>
+                                <div class="six wide field right floated">
+                                  {{ addition_form.name }}
+                                </div>
+                              </div>
+                              <div class="fields">
+                                <div class="six wide field">
+                                  <label> Amount </label>
+                                </div>
+                                <div class="six wide field right floated">
+                                  {{ addition_form.amount }}
+                                </div>
+                              </div>
+                              <input type="submit" class="ui blue button" name="addition_button" value="addition_button"/>
+                              {% csrf_token %}
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="modal fade" id="deduction-modal" role="dialog" aria-labelledby="deduction-modalTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="allowance-modalTitle">Add Deduction</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            <form class="ui form" method="post">
+                              <div class="fields">
+                                <div class="six wide field">
+                                  <label> Name </label>
+                                </div>
+                                <div class="six wide field right floated">
+                                  {{ deduction_form.name }}
+                                </div>
+                              </div>
+                              <div class="fields">
+                                <div class="six wide field">
+                                  <label> Amount </label>
+                                </div>
+                                <div class="six wide field right floated">
+                                  {{ deduction_form.amount }}
+                                </div>
+                              </div>
+                              <input type="submit" class="ui blue button" name="deduction_button" value="deduction_button"/>
+                              {% csrf_token %}
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script src="{% static "js/jquery.min.js" %}"></script>
+          <script src="{% static "js/popper.min.js" %}"></script>
+          <script src="{% static "bootstrap/bootstrap/js/bootstrap.min.js" %}"></script>
+
+          <!-- Font Awesome JS -->
+
+          <script type="text/javascript">
+            $("#add_calc").click(function (e) {
+              e.preventDefault();
+              // code
+            });
+            $("#add_calc2").click(function (e) {
+              e.preventDefault();
+              // code
+            });
+          </script>
+
+          <script defer src="{% static "fontawesome/js/all.js" %}"></script>
+
+{% endblock %}

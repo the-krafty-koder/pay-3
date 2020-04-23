@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/review_payslip.css" %}">
+{% endblock %}
+{% block body %}
+    <div class="ui grid">
+
+      <div class="row">
+        <div class="two wide column"></div>
+        <div class="thirteen wide column">
+          <h4 style="margin-left:3em;">Add Employee Documents</h4>
+          <div class="ui segment" style="margin-left:3em;margin-right:3em;">
+    	<div class="education">
+    	    <h4 class="ui dividing header">Education</h4>
+    	    <div class="ui form ">
+    		    {% for education in education %}
+    		    <div class="fields">
+    			  <div class="five wide field">
+    			    <label>Level</label>
+    			    {{ education.level }}
+    			  </div>
+    			  <div class="five wide field">
+    			    <label>Date</label>
+    			    {{ education.start_year }} - {{ education.end_year }}
+    			  </div>
+    			  <div class="five wide field">
+    			    <label>File</label>
+    			    {{ education.files|filename }}
+    			  </div>
+    		    </div>
+    		    {% endfor %}
+    	    </div>
+    	    <button class="ui button" id="ed-button" data-toggle="modal" data-target="#education-modal">Add Education</button>
+
+    	</div>
+    	<div class="documents">
+    	    <h4 class="ui dividing header">Documents</h4>
+    	    <div class="ui form ">
+    		    {% for document in documents %}
+    		    <div class="fields">
+    			  <div class="five wide field">
+    			    <label>Name</label>
+    			    {{ document.name}}
+    			  </div>
+    			  <div class="five wide field">
+    			    <label>File</label>
+    			    {{ document.files|filename }}
+    			  </div>
+    		    </div>
+    		    {% endfor %}
+    	    </div>
+
+    	    <button class="ui button" id="doc-button" data-toggle="modal" data-target="#document-modal">Add Documents</button>
+
+    	</div>
+
+    	<div class="modal fade" id="education-modal" role="dialog" aria-labelledby="education-modalTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="allowance-modalTitle">Add Education</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form class="ui form" method="POST" enctype="multipart/form-data">
+    			{{ education_form }}
+                        <input type="submit" class="ui blue button" name="education_button" value="Submit"/>
+                        {% csrf_token %}
+    		    </form>
+                      </div>
+                      <div class="modal-footer">
+
+                      </div>
+                    </div>
+                  </div>
+             </div>
+    	<div class="modal fade" id="document-modal" role="dialog" aria-labelledby="education-modalTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="allowance-modalTitle">Add Document</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form class="ui form" method="POST" enctype="multipart/form-data">
+    			{{ document_form }}
+                        <input type="submit" class="ui blue button" name="document_button" value="Submit"/>
+                        {% csrf_token %}
+    		    </form>
+                      </div>
+                      <div class="modal-footer">
+
+                      </div>
+                    </div>
+                  </div>
+             </div>
+             <a href="{% url 'employee_list' %}"<button style="margin-top:2em;" class="ui blue button right floated">Next</button></a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  {% endblock %}

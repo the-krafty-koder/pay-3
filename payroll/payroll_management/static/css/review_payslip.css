@@ -1,0 +1,14 @@
+.payslip-item{
+    background-color: rgb(235, 235, 235);
+    height:2.4em;
+    border-right:12px solid rgb(168, 168, 168);
+
+}
+.payslip-item p{
+  color:black;
+  margin-left:1em;
+  padding-top:0.3em;
+}
+.payslip-item-wrapper{
+
+}

@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/employee_profile.css" %}">
+
+{% endblock %}
+{% block body %}
+  <div class="ui grid" style="margin-left:2em;margin-top:2em;">
+      <div class="four wide column">
+          <div class="ui fluid card">
+              <div class="employee-info text-center">
+                  <div class="center aligned employee-image" >
+                      <img class="ui fluid circular image " src="{{ employee.image.url }}">
+                  </div>
+                  <h3>{{ employee.full_name }}</h3>
+                  <p>{{ employee.department }} </p>
+                  <button class="ui blue button">
+
+                  </button>
+              </div>
+          </div>
+      </div>
+      <div class="one wide column"></div>
+      <div class="eleven wide column">
+          <div class="ui fluid card">
+              <div class="content" style="background-color:#7386D5;">
+                  <div class="header fluid" >
+                      PERSONAL DETAILS
+                      <div class="right floated"><a href="{% url 'edit_employee' employee.first_name employee.last_name %}"><i class="fas fa-edit"></i></a></div>
+                  </div>
+              </div>
+              <div class="content">
+                  <div class="ui grid">
+                      <div class='row'>
+                          <div class="six wide column" style="margin-left: 2em;">
+
+                              <div class="profile-item-wrapper">
+                                  <label>First Name</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.first_name }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Phone Number</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.phone_number }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Email</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.email }}</p>
+                                  </div>
+                              </div>
+
+                          </div>
+                          <div class="two wide column"></div>
+                          <div class="six wide column">
+                              <div class="profile-item-wrapper">
+                                  <label>Last Name</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.last_name }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Home Address</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.home_address }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Gender</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.gender }}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+          </div>
+          <div class="ui fluid card">
+              <div class="content" style="background-color: #7386D5;">
+                  <div class="header fluid" >
+                      WORK INFORMATION
+                      <div class="right floated"><a href="{% url 'edit_employee' employee.first_name employee.last_name %}"><i class="fas fa-edit"></i></a></div>
+                  </div>
+              </div>
+              <div class="content">
+                  <div class="ui grid">
+                      <div class='row'>
+                          <div class="six wide column" style="margin-left: 2em;">
+
+                              <div class="profile-item-wrapper">
+                                  <label>KRA PIN </label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.kra_pin }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>NSSF Number</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.nssf_number }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Department</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.department }}</p>
+                                  </div>
+                              </div>
+
+                          </div>
+                          <div class="two wide column"></div>
+                          <div class="six wide column">
+                              <div class="profile-item-wrapper">
+                                  <label>NHIF Number</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.nhif_number }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Contract</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.contract }}</p>
+                                  </div>
+                              </div>
+			      <div class="profile-item-wrapper">
+                                  <label>Is Manager</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.is_manager }}</p>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+
+      </div>
+	<div class="ui fluid card">
+              <div class="content" style="background-color: #7386D5;">
+                  <div class="header fluid" >
+                      CONTRACT INFORMATION
+                      <div class="right floated"><a href="{% url 'edit_employee' employee.first_name employee.last_name %}"><i class="fas fa-edit"></i></a></div>
+                  </div>
+              </div>
+              <div class="content">
+                  <div class="ui grid">
+                      <div class='row'>
+                          <div class="six wide column" style="margin-left: 2em;">
+
+                              <div class="profile-item-wrapper">
+                                  <label>Start Date </label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.contract.start_date }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Contract Type</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.contract.contract_type }}</p>
+                                  </div>
+                              </div>
+
+
+                          </div>
+                          <div class="two wide column"></div>
+                          <div class="six wide column">
+                              <div class="profile-item-wrapper">
+                                  <label>End Date</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.contract.end_date }}</p>
+                                  </div>
+                              </div>
+                              <div class="profile-item-wrapper">
+                                  <label>Base Salary</label>
+                                  <div class="profile-item fluid">
+                                      <p>{{ employee.contract.base_salary }}</p>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+
+              </div>
+
+      </div>
+	<div class="ui fluid card">
+                  <div class="content" style="background-color: #7386D5;">
+                      <div class="header fluid" >
+                          DOCUMENTS
+                          <div class="right floated"><a href="{% url 'edit_employee' employee.first_name employee.last_name %}"><i class="fas fa-edit"></i></a></div>
+                      </div>
+                  </div>
+                  <div class="content">
+                      <div class="ui grid">
+                          <div class='row'>
+                              <div class="sixteen wide column" style="margin-left: 2em;">
+                                  <table class="ui striped table">
+                                      <thead >
+                                          <th>
+                                              Filename
+                                          </th>
+                                          <th>
+                                              Description
+                                          </th>
+                                          <th>
+                                              Date Added
+                                          </th>
+
+                                      </thead>
+					{% for document in employee.documents %}
+		                              <tr class="selectable">
+		                                  <td> <b>{{ document.name}}</b></td>
+		                                  <td> <b>{{ document.name}}</b></td>
+		                                  <td> {{ document.files|filename}}</td>
+		                              </tr>
+					{% endfor %}
+
+                                  </table>
+
+
+                              </div>
+
+
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+	  <div class="ui fluid card">
+                  <div class="content" style="background-color: #7386D5;">
+                      <div class="header fluid" >
+                          EDUCATION
+                          <div class="right floated"><a href="{% url 'edit_employee' employee.first_name employee.last_name %}"><i class="fas fa-edit"></i></a></div>
+                      </div>
+                  </div>
+                  <div class="content">
+                      <div class="ui grid">
+                          <div class='row'>
+                              <div class="sixteen wide column" style="margin-left: 2em;">
+                                  <table class="ui striped table">
+                                      <thead >
+                                          <th>
+                                              Level
+                                          </th>
+                                          <th>
+                                              Start Year
+                                          </th>
+                                          <th>
+                                              End Year
+                                          </th>
+					  <th>
+                                              Filename
+                                          </th>
+
+                                      </thead>
+					{% for document in employee.education %}
+		                              <tr class="selectable">
+		                                  <td> <b>{{ document.level}}</b></td>
+		                                  <td> <b>{{ document.start_year }}</b></td>
+						  <td> <b>{{ document.end_year }}</b></td>
+		                                  <td> {{ document.files|filename }}</td>
+		                              </tr>
+					{% endfor %}
+
+                                  </table>
+
+
+                              </div>
+
+
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+        </div>
+
+  </div>
+  {% endblock %}
+
+  

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock %}
+{% block body %}
+    <div class="ui grid">
+      <div class="row">
+        <div class="two wide column"></div>
+        <div class="twelve wide column">
+          <h4 style="margin-left:1em;">Create Employee Contract</h4>
+          <div class="ui segment" id="selection-drop">
+            <form class="ui form" method="POST">
+              <div class="ui raised yellow segment">
+                <h4 class="ui dividing header">Contract Information</h4>
+                <div class="fields">
+
+                  <div class="six wide field">
+                    <label>Contract Type</label>
+                    {{ form.employee_name }}
+                  </div>
+
+                </div>
+
+                <div class="fields">
+                  <div class="six wide field">
+                    <label>Start Date</label>
+                    {{ form.start_date }}
+                  </div>
+                  <div class="six wide field">
+                    <label>End Date</label>
+                    {{ form.end_date }}
+                  </div>
+                </div>
+                <div class="fields">
+
+                  <div class="six wide field">
+                    <label>Contract Type</label>
+                    {{ form.contract_type }}
+                  </div>
+                  <div class="six wide field">
+                    <label>Base Salary</label>
+                    {{ form.base_salary }}
+                  </div>
+                </div>
+                <div class="fields">
+                   <div class="six wide field">
+                     <b><label style="font-size:95%">Allowances</label></b>
+
+
+        		                {% for key in custom_allowance %}
+        		                <div class="twelve wide field">
+        		                  <label>{{ key.name }}</label>
+        		                  <input type="text" value="{{ key.amount }}">
+        		                </div>
+        		                {% endfor %}
+
+
+
+                              </div>
+                  <div class="six wide field">
+                    <button id="add_calc" class="ui blue button right floated" data-toggle="modal" data-target="#allowance-modal"> Add Allowance</button>
+
+                  </div>
+                </div>
+
+
+
+              </div>
+
+              <button style="margin-top:2em;margin-bottom:1em;" class="ui blue  button left floated" id="go-back" >Back</button>
+              <button style="margin-top:2em;margin-bottom:1em;" class="ui blue  button right floated" tabindex="0">Next</button>
+              {% csrf_token %}
+
+            </form>
+            <div class="modal fade" id="allowance-modal" tabindex="-1" role="dialog" aria-labelledby="allowance-modalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="subject-modalTitle">Add Allowance</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form class="ui form" method="post">
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label> Name </label>
+                          </div>
+                          <div class="six wide field right floated">
+                            {{ addition_form.name }}
+                          </div>
+                        </div>
+                        <div class="fields">
+                          <div class="six wide field">
+                            <label> Amount </label>
+                          </div>
+                          <div class="six wide field right floated">
+                            {{ addition_form.amount }}
+                          </div>
+                        </div>
+                        <input type="submit" class="ui blue button" name="addition_button" value="addition_button"/>
+                        {% csrf_token %}
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="three wide column"></div>
+      </div>
+    </div>
+
+
+  {% endblock %}
+  {% block script %}
+  <script type="text/javascript">
+    $("#add_calc").click(function (e) {
+      e.preventDefault();
+      // code
+    });
+  </script>
+  <script type="text/javascript">
+    document.getElementById('go-back').addEventListener('click', () => {
+     history.back();
+   });
+  </script>
+  {% endblock %}

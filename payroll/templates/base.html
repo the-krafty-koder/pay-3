@@ -1,0 +1,143 @@
+{% load static %}
+{% load type_tag %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    {% block title %}
+
+    {% endblock %}
+
+
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic/semantic.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    {% block styles %}
+
+    {% endblock %}
+
+    <!-- Scrollbar Custom CSS -->
+    <!-- Font Awesome JS -->
+    <link href="{% static "fontawesome/css/all.css" %}" rel="stylesheet">
+    <script defer src="{% static "fontawesome/js/all.js" %}"></script>
+
+
+
+
+
+
+</head>
+
+
+<body>
+
+
+  <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+          <div class="sidebar-header">
+            <span class="dash-user-icon text-center" >
+                <img class="ui fluid circular image" src="{{ url|company_logo }}">
+
+            </span>
+            <h3 class="text-center" style="margin-bottom:2em;">{{ name|company_name }}</h3>
+
+          </div>
+
+          <ul class="list-unstyled components">
+              <p class="text-center"><i class="fas fa-columns icon"></i> Dashboard </p>
+              <li class="active">
+                  <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-users icon "></i>Employees</a>
+                  <ul class="collapse list-unstyled" id="homeSubmenu">
+                      <li>
+                          <a href="{% url 'employee_create' %}"><i class="fas fa-file-alt icon"></i>Create</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'employee_list' %}"><i class="fas fa-list icon "></i>List</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                  <a href="#payrollSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-file-invoice icon "></i>Payroll</a>
+                  <ul class="collapse list-unstyled" id="payrollSubmenu">
+                      <li>
+                          <a href="{% url 'dashboard_payroll' %}"><i class="fas fa-columns icon"></i>Dashboard</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'payslips_list' %}"><i class="fas fa-list icon "></i>List</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                  <a href="#attendanceSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-users-cog icon "></i>Attendance</a>
+                  <ul class="collapse list-unstyled" id="attendanceSubmenu">
+                      <li>
+                        <a href="{% url 'attendance_dashboard' %}"><i class="fas fa-columns icon"></i>List</a>
+                      </li>
+                      <li>
+                          <a href="{% url 'attendance_records' %}"><i class="fas fa-list icon "></i>Records</a>
+                      </li>
+                  </ul>
+              </li>
+              <li>
+                  <a href="{% url 'profile_firm' %}">
+                    <i class="fas fa-address-card icon "></i> Company Profile
+                  </a>
+              </li>
+              <li style="margin-top:2em;">
+                  <a href="{% url 'logout' %}">
+                    <i class="fas fa-sign-out-alt icon"></i> Logout
+                  </a>
+              </li>
+          </ul>
+      </nav>
+
+      <!-- Page Content  -->
+      <div id="content">
+
+          <div class="ui fixed menu">
+            <div class="right menu">
+
+              <a class="item" id="sidebarCollapse" >
+                  <i class="fas fa-align-left" style="margin-right:1em;"></i>
+                  <span>Menu</span>
+              </a>
+            </div>
+          </div>
+
+          {% block body %}
+          {% endblock %}
+
+      </div>
+  </div>
+
+
+
+  <script src="{% static "js/jquery.min.js" %}"></script>
+  <script src="{% static "js/popper.min.js" %}"></script>
+  <script src="{% static "bootstrap/bootstrap/js/bootstrap.min.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
+          });
+
+          $('#sidebarCollapse').on('click', function () {
+              $('#sidebar, #content').toggleClass('active');
+              $('.collapse.in').toggleClass('in');
+              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+          });
+      });
+  </script>
+  {% block script %}
+  {% endblock %}
+
+
+
+</body>
+</html>

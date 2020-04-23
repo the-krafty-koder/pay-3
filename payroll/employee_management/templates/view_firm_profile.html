@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/employee_profile.css" %}">
+
+{% endblock %}
+{% block body %}
+    <h4 style="margin-left:15%;margin-top:2em;">Company Profile</h4>
+    <div class="ui grid" style="margin-left:15%;margin-top:1em;">
+      <div class="row">
+        <div class="fourteen wide column">
+          <div class="ui raised segment">
+            <div class="ui grid" style="margin-left:2em;margin-top:1em;margin-bottom:1em;">
+                <div class="row">
+                  <div class="three wide column">
+                    <div class="" >
+                        <img class="ui fluid circular image " src="{{ profile.logo.url }}">
+                    </div>
+                  </div><div class="twelve wide column">
+                    <div class="right floated" style="margin-left:95%;"><a href="{% url 'profile_firm_edit' %}"><i class="fas fa-edit"></i></a></div>
+
+
+                    <div class="profile-item-wrapper">
+                        <label> Company Name </label>
+                        <div class="profile-item fluid">
+                            <p>{{ profile.firm_name }}</p>
+                        </div>
+                    </div>
+                    <div class="profile-item-wrapper">
+                        <label> Website </label>
+                        <div class="profile-item fluid">
+                            <p>{{ profile.website }}</p>
+                        </div>
+                   </div>
+                    <div class="profile-item-wrapper">
+                        <label> Address </label>
+                        <div class="profile-item fluid">
+                            <p>{{ profile.mailing_address }}</p>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

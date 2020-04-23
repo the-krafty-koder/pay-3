@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block styles %}
+
+{% endblock %}
+{% block body %}
+    <div class="ui grid">
+
+      <div class="row">
+        <div class="three wide column"></div>
+        <div class="thirteen wide column">
+          <h4 style="margin-left:1em;">Edit Company Profile</h4>
+          <div class="ui raised segment">
+            <form class="ui form" method="post" enctype="multipart/form-data">
+              {{ form }}
+              <button style="margin-top:1em;" class="ui blue button">Submit</button>
+              {% csrf_token %}
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  {% endblock %}

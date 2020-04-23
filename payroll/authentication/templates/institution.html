@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic/semantic.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+</head>
+<body>
+  <div class="ui fixed menu">
+    <div class="right menu">
+
+      <a class="item" id="sidebarCollapse" >
+          <i class="fas fa-align-left" style="margin-right:1em;"></i>
+          <span>Menu</span>
+      </a>
+    </div>
+  </div>
+  <div class="ui grid" id="grid-container" style="margin-top:7em;">
+
+    <div class="row">
+      <div class="five wide column"></div>
+      <div class="left aligned six wide column">
+        <div class="ui segment" id="selection-drop">
+          <form class="ui form" method="post">
+            <h4 class="ui dividing header" style="">Institution</h4>
+            {% for field in form %}
+              <div class="field">
+                <label>{{ field.label_tag }}</label>
+                <div class="fields">
+                  <div class="thirteen wide field">
+                    <div class="fieldWrapper">
+                      {{ field.errors }}
+                      {{ field }}
+                      {% if field.help_text %}
+                      <p class="help">{{ field.help_text|safe }}</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            <button class="ui button" style="background:#7386D5;width:100%">Create Firm</button>
+            {% csrf_token %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+

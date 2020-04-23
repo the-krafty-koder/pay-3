@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+
+  <div class="segment" style="margin-top:2em;margin-left:10%;">
+    <!--<div class="float-right four wide column" style="margin-right:-1em;margin-bottom:2em;"><div class="ui blue button">Create PaySlip</div></div><br> -->
+    <div class="ui grid" style="margin-top:1em;margin-left:-5%;">
+        <div class="row">
+
+
+            <div class="ten wide column">
+                <h4> PaySlip List </h4>
+                <div class="ui fluid card" id="drop-container" style="height:90%;">
+                    <div class="content">
+                      <div class="ui grid">
+
+                        <div class="row" style="margin-left:5%;margin-right:5%;">
+                          <div class="sixteen wide column">
+                            <form class="ui form" method="POST">
+  				<div class="fields">
+  					<div class="four wide field">
+  					  <p>Search</p>
+  	 				</div>
+  					<div class="twelve wide field">
+  					  {{ form.search_text }}
+  	 				</div>
+  					<div class="four wide field">
+  					  <input type="submit" class="ui blue button right floated" name="education_button" value="Submit"/>
+  	 				</div>
+  				       {% csrf_token %}
+  				</div>
+  			  </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div><br><br>
+    <div class="ui grid">
+      {% for key,item in payslip_list.items %}
+      <div class="row">
+	      <h3 class="ui dividing header" style="margin-bottom:0.5em;margin-left:-1em;"><b>{{ key }}</b></h3>
+
+		      <div class="row">
+            <div class="ui link cards">
+              {% for slip in item %}
+              <div class="card">
+                <div class="content" >
+                  <div class="header" style="font-size:99%;">
+                    <div class="ui grid">
+                      <div class="row">
+                        <div class="nine wide column" style="margin-left:1em;">
+                          <i class="fas fa-calendar-alt" ></i> {{slip.date_created|date:"d M Y" }}
+                        </div>
+				                <div class="right floated six wide column">
+
+				                 <i class="right floated fas fa-check-circle" style="color:#7386D5;"></i>
+				                </div>
+				              </div>
+				            </div>
+			            </div>
+			            <div class="description" style="padding-top:2em;">
+				           {{ slip.employee.full_name }}
+			            </div>
+			          </div>
+			          <div class="extra content">
+                  <span class="right floated">
+                    <a href="{% url 'payslip_review' slip.employee.first_name slip.employee.last_name slip.name %}">View</a> <i class="far fa-arrow-alt-circle-right" style="color:#7386D5;"></i>
+                  </span>
+			          </div>
+			        </div>
+			       {% endfor %}
+			      </div>
+          </div>
+      
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
+
+<!--<script type="text/javascript">
+  $("#add_deduction").click(function (e) {
+    e.preventDefault();
+    // code
+  });
+</script> -->
+
+<!-- Font Awesome JS -->

@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static "semantic/semantic/semantic.min.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    {% block styles %}
+
+    {% endblock %}
+
+    <!-- Scrollbar Custom CSS -->
+
+
+    <!-- Font Awesome JS -->
+    <link href="{% static "fontawesome/css/all.css" %}" rel="stylesheet">
+    <script defer src="{% static "fontawesome/js/all.js" %}"></script>
+
+
+
+
+
+
+</head>
+
+
+<body>
+
+
+  <div class="wrapper">
+      <!-- Sidebar  -->
+      <nav id="sidebar">
+          <div class="sidebar-header">
+            <span class="dash-user-icon text-center" >
+                <i class="fas fa-school fa-3x school "></i>
+
+            </span>
+            <h3 class="text-center" style="margin-bottom:2em;">Company Name</h3>
+
+          </div>
+
+          <ul class="list-unstyled components">
+              <p class="text-center"><i class="fas fa-columns icon"></i> Dashboard </p>
+              <li>
+                  <a href="{% url 'check_in_employee' employee_name %}">
+                    <i class="fas fa-users-cog icon "></i>Attendance
+                  </a>
+              </li>
+              <li>
+                  <a href="#">
+                    <i class="fas fa-address-card icon "></i> Company Profile
+                  </a>
+              </li>
+          </ul>
+      </nav>
+
+      <!-- Page Content  -->
+      <div id="content">
+
+          <div class="ui fixed menu">
+            <div class="right menu">
+
+              <a class="item" id="sidebarCollapse" >
+                  <i class="fas fa-align-left" style="margin-right:1em;"></i>
+                  <span>Menu</span>
+              </a>
+            </div>
+          </div>
+
+          {% block body %}
+          <div  class="ui grid">
+            <div class="row">
+              <div class="two wide column centered text-center" style="margin-top:10em;">
+                <a href="{% url 'toggle_employee' employee_name %}"><button class="ui blue button" style="height:10em;width:10em;">
+                  {% if check_in %}
+                   <h4>Check Out</h4>
+                  {% else %}
+                   <h4>Check In</h4>
+                  {% endif%}
+                  <i style="margin-top:10%;" class="far fa-arrow-alt-circle-right"></i>
+                </button></a>
+              </div>
+            </div>
+          </div>
+
+          {% endblock %}
+
+      </div>
+  </div>
+
+
+
+  <script src="{% static "js/jquery.min.js" %}"></script>
+  <script src="{% static "js/popper.min.js" %}"></script>
+  <script src="{% static "bootstrap/bootstrap/js/bootstrap.min.js" %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+          $("#sidebar").mCustomScrollbar({
+              theme: "minimal"
+          });
+
+          $('#sidebarCollapse').on('click', function () {
+              $('#sidebar, #content').toggleClass('active');
+              $('.collapse.in').toggleClass('in');
+              $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+          });
+      });
+  </script>
+
+
+
+</body>
+</html>

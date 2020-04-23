@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/review_payslip.css" %}">
+{% endblock %}
+{% block body %}
+<div class="ui grid">
+  <div class="row">
+    <div class="three wide column"></div>
+    <div class="twelve wide column">
+      <button class="ui blue button right floated "><a href="{% url 'download_payslip' form.name %}">Download PaySlip</a></button>
+      <div class="ui segment" id="selection-drop" style="margin-top:10%;">
+
+        <form class="ui form" action="{% url 'payslips_list' %}">
+
+          <div class="ui raised blue segment">
+            <h4 class="ui dividing header" >PaySlip Information</h4>
+            <div class="field">
+              <div class="fields">
+                <div class="six wide field">
+                  <label>Employee</label>
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.employee }}</p>
+                      </div>
+                  </div>
+                </div>
+                <div class="four wide field"></div>
+                <div class="six wide field ">
+                  <label>Date Created</label>
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.date_created|date:"d M Y" }}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <h4 class="ui dividing header" >Earnings</h4>
+            <div class="fields">
+              <div class="six wide field">
+                <label> Basic </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="six wide field right floated">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ form.basic_salary|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <div class="fields">
+              <div class="six wide field">
+                <label> Gross Salary </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="right floated six wide field ">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ form.gross_salary|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+	    <b><label style="font-size:90%">Allowances</label><b>
+            <div class="fields">
+              {% for key,item in form.all_allowances.items %}
+              <div class="four wide field">
+                <label>{{ key }}</label>
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ item }}</p>
+                    </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+            <div class="right floated fields">
+              <div class="six wide field">
+              </div>
+              <div class="four wide field">
+              </div>
+
+            </div>
+            <h4 class="ui dividing header" >Taxation</h4>
+            <div class="fields">
+              <div class="six wide field">
+                <label> Taxable Income </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="six wide field right floated">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ form.taxable|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="fields">
+              <div class="six wide field">
+                <label> Tax Charged </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="six wide field right floated">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ form.tax_charged|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="fields">
+              <div class="six wide field">
+                <label> Relief </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="six wide field right floated">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ payslip.relief|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+	    <div class="fields">
+              <div class="six wide field">
+                <label> PAYE </label>
+              </div>
+              <div class="four wide field"></div>
+              <div class="six wide field right floated">
+                <div class="payslip-item-wrapper">
+                    <div class="payslip-item fluid">
+                        <p>{{ form.paye|floatformat:2  }}</p>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <h4 class="ui dividing header" >Deductions</h4>
+            <div class="field">
+              <div class="fields">
+                <div class="six wide field">
+                  <label>NHIF</label>
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.nhif|floatformat:2 }}</p>
+                      </div>
+                  </div>
+                </div>
+                <div class="four wide field"></div>
+                <div class="six wide field right floated">
+                  <label>NSSF</label>
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.nssf|floatformat:2  }}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="fields">
+                {% for key,item in form.deductions.items %}
+                <div class="four wide field">
+                  <label>{{ key }}</label>
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ item }}</p>
+                      </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="fields">
+                <div class="six wide field">
+                  <label> Total Deductions </label>
+                </div>
+                <div class="four wide field"></div>
+                <div class="six wide field right floated">
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.total_deductions|floatformat:2 }}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <h4 class="ui dividing header" >Net</h4>
+            <div class="field">
+              <div class="fields">
+                <div class="six wide field">
+                  <label>Net Salary</label>
+                </div>
+                <div class="four wide field"></div>
+                <div class="right floated six wide field ">
+                  <div class="payslip-item-wrapper">
+                      <div class="payslip-item fluid">
+                          <p>{{ form.net_salary|floatformat:2  }}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <button class="ui fluid blue button">Confirm & Save</button>
+	{% csrf_token %}
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

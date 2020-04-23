@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      @page {
+          size: a4 portrait;
+          @frame header_frame {           /* Static Frame */
+              -pdf-frame-content: header_content;
+              left: 50pt; width: 512pt; top: 50pt; bottom: 50pt;
+          }
+          @frame content_frame {          /* Content Frame */
+              left: 50pt; width: 512pt; top: 90pt; height: 632pt;
+          }
+          @frame footer_frame {           /* Another static Frame */
+              -pdf-frame-content: footer_content;
+              left: 50pt; width: 512pt; top: 772pt; height: 632pt;
+          }
+          @frame company_details {
+            -pdf-frame-content: company_content;           /* Content frame 1 */
+             width: 245pt; top: 90pt; height: 632pt;
+          }
+          @frame payslip_details {
+              -pdf-frame-content: payslip_details;/* Content frame 2 */
+              left: 450pt; width: 245pt; top: 50pt; height: 632pt;
+          }
+	  @frame employee_info_frame {
+              -pdf-frame-content: employee_info;/* Content frame 2 */
+              width: 245pt; top: 120pt; height: 632pt;
+          }
+          @frame employee_frame {
+              -pdf-frame-content: employee_content;/* Content frame 2 */
+              left: 50pt; right: 50pt; width: 245pt; top: 140pt; height: 632pt;
+          }
+	  @frame emp_data_frame {
+              -pdf-frame-content: emp_data_content;/* Content frame 2 */
+              left: 420pt; right:50pt; width: 150pt; top: 80pt; height: 632pt;
+          }
+	  @frame emp_data_frame {
+              -pdf-frame-content: table_content;/* Content frame 2 */
+              left: 50pt; width: 520pt; top: 280pt; height: 632pt;
+          }
+
+      }
+      table {    -pdf-keep-in-frame-mode: shrink;empty-cells: hide;}
+      td, th {
+	  border: 1px solid #dddddd;
+	  text-align: left;
+	  padding-right: 8px;
+	  padding-top:5px;
+	  padding-bottom:5px;
+	  padding-left:3px;
+      }
+      th, .final {
+	  background-color:#f5f5f5;
+      }
+      .no-show {
+	  border: none;
+
+      }
+      .earning{
+	  width:350px;
+      }
+  </style>
+  </head>
+  <body>
+    <!-- Content for Static Frame 'header_frame' -->
+     <div id="header_content">
+        <div id="company_details">
+          <div style="color:#7386D5" ><h1>Company Name<h1></div>
+          <h4>Address : 57,Kisumu</h4>
+          <p style="color:#7386D5">Phone Number: 079875846475          Email : company@gmail.com ]</p>
+        </div>
+        <div id="payslip_details">
+          <h1 style="color:#7386D5;font-size:20pt;" >PAYSLIP</h1>
+        </div>
+
+     </div><br>
+
+     <!-- Content for Static Frame 'footer_frame' -->
+     <div id="footer_content" style="text-align:center;">
+       If you have any questions about this payslip, please contact:<br>
+        <br>
+       (c) Scala Institute
+     </div>
+
+     <div id="employee_info">
+       <div id="employee_content" >
+		<div style="background-color:#7386D5;padding-top:5pt;padding-left:5pt;"><h1>EMPLOYEE INFORMATION<h1></div>
+	       <h3><b>Full Name:<b> {{ payslip.employee.full_name }}</h3></b>
+	       <p>Address : {{ payslip.employee.home_address }}</p>
+	       <p>Phone Number: {{ payslip.employee.phone_number }}</p>
+	       <p>Email : {{ payslip.employee.email }}</p>
+	</div>
+	<div id="emp_data_content">
+		<div class="emp_data_content_item" style="text-align:center;width:30pt!important;">
+			<p style="background-color:#f5f5f5;padding-top:5pt;">KRA PIN</p>
+			<p>{{ payslip.employee.kra_pin }}</p>
+		</div>
+		<div class="emp_data_content_item" style="text-align:center;width:30pt!important;">
+			<p style="background-color:#f5f5f5;padding-top:5pt;">NSSF NUMBER</p>
+			<p >{{ payslip.employee.nssf_number }}</p>
+		</div>
+		<div class="emp_data_content_item" style="text-align:center;width:30pt!important;">
+			<p style="background-color:#f5f5f5;padding-top:5pt;">NHIF NUMBER</p>
+			<p >{{ payslip.employee.nhif_number }}</p>
+		</div>
+		<div class="emp_data_content_item" style="text-align:center;width:30pt!important;">
+			<p style="background-color:#f5f5f5;padding-top:5pt;">PAYSLIP ID</p>
+			<p>{{ payslip.name }}</p>
+		</div>
+	</div>
+     </div>
+
+     <div id="table_content">
+        <table>
+		<tr>
+		    <th class="earning">Earnings</th>
+		    <th>Amount</th>
+		    <th>Total</th>
+		</tr>
+		<tr>
+		    <td class="earning">Basic Salary</td>
+		    <td>{{ payslip.basic_salary|floatformat:2  }}</td>
+		    <td>{{ payslip.basic_salary|floatformat:2  }}</td>
+		</tr>
+		{% for key,item in payslip.all_allowances.items %}
+		<tr>
+		    <td class="earning">{{ key }}</td>
+		    <td>{{ item }}</td>
+		    <td>{{ item }}</td>
+		</tr>
+		{% endfor %}
+
+               <tr>
+		    <td class="earning no-show"></td>
+		    <td class="final">Gross Salary</td>
+		    <td class="final">{{ payslip.gross_salary|floatformat:2  }}</td>
+		</tr>
+
+	</table>
+	 <table style="margin-top:20px;">
+		<tr>
+		    <th class="earning">Taxation</th>
+		    <th>Amount</th>
+		    <th>Total</th>
+		</tr>
+		<tr>
+		    <td class="earning">Taxable Income</td>
+		    <td>{{ payslip.taxable|floatformat:2  }}</td>
+		    <td>{{ payslip.taxable|floatformat:2  }}</td>
+		</tr>
+		<tr>
+		    <td class="earning">Tax Charged</td>
+		    <td>{{ payslip.tax_charged|floatformat:2  }}</td>
+		    <td>{{ payslip.tax_charged|floatformat:2  }}</td>
+		</tr>
+		<tr>
+		    <td class="earning">Relief</td>
+		    <td>{{ payslip.relief|floatformat:2  }}</td>
+		    <td>{{ payslip.relief|floatformat:2  }}</td>
+		</tr>
+               <tr>
+		    <td class="earning no-show"></td>
+		    <td class="final">PAYE (Tax Charged)</td>
+		    <td class="final">{{ payslip.paye|floatformat:2  }}</td>
+		</tr>
+
+	</table>
+        <table style="margin-top:20px;">
+		<tr>
+		    <th class="earning">Deductions</th>
+		    <th>Amount</th>
+		    <th>Total</th>
+		</tr>
+		<tr>
+		    <td class="earning">NSSF</td>
+		    <td>{{ payslip.nssf|floatformat:2  }}</td>
+		    <td>{{ payslip.nssf|floatformat:2  }}</td>
+		</tr>
+		{% for key,item in payslip.all_deductions.items %}
+		<tr>
+		    <td class="earning">{{ key }}</td>
+		    <td>{{ item }}</td>
+		    <td>{{ item }}</td>
+		</tr>
+		{% endfor %}
+               <tr>
+		    <td class="earning no-show"></td>
+		    <td class="final">Total Deductions</td>
+		    <td class="final">{{ payslip.total_deductions|floatformat:2  }}</td>
+		</tr>
+
+	</table>
+
+        <table style="margin-top:20px;">
+		<tr>
+		    <td class="earning no-show"></td>
+		    <td class="final">Net Salary</td>
+		    <td class="final">{{ payslip.net_salary|floatformat:2 }}</td>
+		</tr>
+
+	</table>
+
+     </div>
+
+
+  </body>
+</html>

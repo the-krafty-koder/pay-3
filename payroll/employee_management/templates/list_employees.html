@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/list_employees.css" %}">
+
+{% endblock %}
+{% block body %}
+
+  <div class="ui grid" style="margin-top:1em;">
+      <div class="row">
+          <div class="one wide column"></div>
+          <div class="eight wide column">
+              <h4>Search Employee</h4>
+              <div class="ui fluid card" id="drop-container" style="height:90%;">
+                  <div class="content">
+                    <div class="ui grid">
+                      <div class="row" style="margin-left:1em;">
+                        <div class="twelve wide column">
+                          <form class="ui form" method="POST">
+				<div class="fields">
+					<div class="six wide field">
+					  Search
+	 				</div>
+					<div class="six wide field">
+					  {{ form.search_text }}
+	 				</div>
+					<div class="six wide field">
+					  <input type="submit" class="ui blue button" name="education_button" value="Submit"/>
+	 				</div>
+				       {% csrf_token %}
+				</div>
+			  </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </div>
+  <div class="ui grid">
+      <div class="row">
+          <div class="one wide column"></div>
+          <div class="twelve wide column">
+              <h4 style="margin-top:2em; ">Employee List</h4>
+              <table class="ui selectable striped table">
+                  <thead style="background-color: rgb(87, 79, 201)!important;">
+                      <th>
+                          Employee
+                      </th>
+                      <th>
+                          Employee Code
+                      </th>
+                      <th>
+                          First Name
+                      </th>
+                      <th>
+                          Last Name
+                      </th>
+                      <th>
+                          Phone Number
+                      </th>
+                      <th>
+                          Email
+                      </th>
+                      <th>
+                          Home Address
+                      </th>
+                      <th>
+                          Contract
+                      </th>
+                      <th>
+                          Department
+                      </th>
+                      <th>
+                          Is Manager
+                      </th>
+                      <th>
+                          Delete
+                      </th>
+
+
+
+                  </thead>
+                  <tbody>
+                      {% for employee in employees %}
+                          <tr class="selectable">
+                              <td class="text-center"> <i class="far fa-user-circle"></i></td>
+                              <td> Emp ID </td>
+                              <td class="selectable"> <a href="{% url 'employee_profile' employee.first_name employee.last_name %}">{{ employee.first_name }}</a></td>
+                              <td class="selectable"> <a href="{% url 'employee_profile' employee.first_name employee.last_name %}">{{ employee.last_name }}</a></td>
+                              <td> {{ employee.phone_number }}</td>
+                              <td> {{ employee.email }}</td>
+                              <td> {{ employee.home_address }}</td>
+                              <td> {{ employee.contract }}</td>
+                              <td> {{ employee.department }}</td>
+                              <td class="text-center">
+                                  {% if employee.is_manager %}
+                                  <i class="far fa-check-circle check"></i>
+                                  {% endif %}
+                              </td>
+                              <td class="text-center"> <i class="fa fa-trash bin" data-toggle="modal" data-target="#delete-{{ employee.first_name }}{{ employee.last_name }}-modal"> </i>
+
+                                  <div class="modal fade" id="delete-{{ employee.first_name }}{{ employee.last_name }}-modal" tabindex="-1" role="dialog" aria-labelledby="delete-modalTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="subject-modalTitle">Delete {{ employee.first_name }} {{ employee.last_name }}</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="ui list">
+                                                <div class="item">
+                                                  <div class="left floated five column">
+                                                      <a href="{% url 'employee_delete' employee.first_name employee.last_name %}">
+                                                          <button type="button" class="ui blue button">
+                                                              Yes
+                                                          </button>
+                                                      </a>
+                                                  </div>
+                                                  <div class="right floated five column">
+                                                      <button type="button" class="ui red button close" data-dismiss="modal" aria-label="Close">
+                                                          No
+                                                      </button>
+                                                  </div>
+
+                                                </div>
+
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="ui button" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </td>
+
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+
+
+
+
+      </div>
+  </div>
+  {% endblock %}

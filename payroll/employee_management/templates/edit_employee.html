@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/review_payslip.css" %}">
+{% endblock %}
+{% block body %}
+    <div class="ui grid">
+      <div class="row">
+        <div class="three wide column"></div>
+        <div class="ten wide column">
+          <div class="ui segment" id="selection-drop">
+            <form class="ui form" method="POST">
+              <div class="ui raised blue segment">
+                <h4 class="ui dividing header" >Personal Information</h4>
+		<div class="field">
+                    <label> Image </label>
+                    <div class="fields">
+                      <div class="twelve wide field">
+			{{ form.image }}
+                      </div>
+                    </div>
+                  </div>
+                <div class="field">
+                  <label>Name</label>
+                  <div class="fields">
+                    <div class="six wide field">
+                      {{ form.first_name}}
+                    </div>
+                    <div class="six wide field">
+                      {{ form.last_name}}
+                    </div>
+                  </div>
+                  <label>Contacts</label>
+                  <div class="fields">
+                    <div class="six wide field">
+                      <label>Phone Number</label>
+                      {{ form.phone_number}}
+                    </div>
+                    <div class="six wide field">
+                      <label>Email</label>
+                      {{  form.email}}
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label> Gender </label>
+                    <div class="fields">
+                      <div class="twelve wide field">
+                        {{ form.gender }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label> Home Address </label>
+                    <div class="fields">
+                      <div class="twelve wide field">
+                        {{ form.home_address }}
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="ui raised blue segment">
+                <h4 class="ui dividing header">Work Information</h4>
+                <div class="field">
+                  <label> Identification/Passport Number </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.identification_number }}
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label> KRA PIN </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.kra_pin }}
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label> NHIF Number </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.nhif_number }}
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label> NSSF Number </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.nssf_number }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="ui raised blue segment">
+                <h4 class="ui dividing header">Contract Information</h4>
+
+                <div class="fields">
+                  <div class="six wide field">
+                    <label>Contract</label>
+                    {{ form.contract }}
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label> Department </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.department }}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label> Is Manager </label>
+                  <div class="fields">
+                    <div class="twelve wide field">
+                      {{ form.is_manager }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <button class="fluid ui blue  button" tabindex="0">Submit</button>
+              {% csrf_token %}
+
+            </form>
+          </div>
+        </div>
+        <div class="three wide column"></div>
+      </div>
+    </div>
+  {% endblock %}

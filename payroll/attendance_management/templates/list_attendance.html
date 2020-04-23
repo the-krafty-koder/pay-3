@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% load type_tag %}
+{% block styles %}
+<link rel="stylesheet" type="text/css" href="{% static "css/list_attendance.css" %}">
+
+{% endblock %}
+{% block body %}
+<div class="ui grid">
+    <div class="row">
+        <div class="two wide column"></div>
+        <div class="thirteen wide column">
+            <h4>Attendance List</h4>
+            <table class="ui selectable striped table">
+                <thead style="background-color: rgb(87, 79, 201)!important;">
+                    <th>
+                        Employee ID
+                    </th>
+                    <th>
+                        Employee Name
+                    </th>
+                    <th>
+                        Department
+                    </th>
+                    <th>
+                        Date
+                    </th>
+                    <th>
+                        Check In Time
+                    </th>
+                    <th>
+                        Check Out Time
+                    </th>
+                    <th>
+                        Is In
+                    </th>
+                    <th>
+                        Is Late
+                    </th>
+                </thead>
+                <tbody>
+                    {% for key,attendance in daily_attendance.employee_attendance_objects.items %}
+                        <tr class="selectable">
+                            <td class="text-center"> <i class="far fa-user-circle"></i></td>
+                            <td> {{ attendance.employee.full_name }} </td>
+                            <td> {{ attendance.employee.department }}</td>
+                            <td> {{ attendance.date_created|date:"d M Y" }}</td>
+                            <td>
+                                 {% if attendance.check_in_time %}
+                                      {{ attendance.check_in_time|time }}
+                                 {% else %}
+                                      Not In
+                                 {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.out_time > attendance.in_time  %}
+                                    {{ attendance.out_time|time }}
+                                {% else %}
+                                    {% if attendance.check_in_time %}
+                                        On Duty
+                                    {% else %}
+                                        Not In
+                                    {% endif %}
+
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.check_in_toggle %}
+                                   <i class="far fa-check-circle check"></i>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if attendance.is_late %}
+                                   <i class="far fa-check-circle bin"></i>
+                                {% endif %}
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

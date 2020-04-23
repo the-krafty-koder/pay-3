@@ -1,0 +1,26 @@
+.employee-image{
+    height:8em;
+    width:8em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.employee-info{
+    margin-top:2em;
+    margin-bottom:2em;
+}
+.profile-item{
+    background-color: rgb(235, 235, 235);
+    height:2.4em;
+    border-right:12px solid rgb(168, 168, 168);
+}
+.profile-item > p{
+    padding-top:0.5em;
+    padding-left:1em;
+}
+.profile-item-wrapper{
+    margin-top:1em;
+    margin-bottom: 1em;
+}

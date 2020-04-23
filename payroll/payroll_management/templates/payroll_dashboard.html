@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% load static %}
+{% block styles %}
+ <link rel="stylesheet" type="text/css" href="{% static "css/dashboard_payroll.css" %}">
+{% endblock %}
+{% block body %}
+  <div class="segment" style="margin-top:2em;margin-left:5em;">
+    <div class="ui grid">
+      <div class="row">
+        <div class="eight wide column ">
+          <h4>Summary</h4>
+          <div class="ui raised fluid segment top-segment">
+            <div class="ui two column very relaxed grid">
+              <div class="column">
+                <i class="fas fa-plus-circle fa-2x"></i>
+                <h4>Allowances</h4>
+                <h4>Ksh</h4>
+                <h2>{{ allowances }}</h2>
+              </div>
+              <div class="column">
+                <i class="fas fa-minus-circle fa-2x"></i>
+                <h4>Deductions</h4>
+	        <h4>Ksh</h4>
+                <h2>{{ deductions }}</h2>
+              </div>
+            </div>
+            <div class="ui vertical divider">
+
+            </div>
+          </div>
+        </div>
+        <div class="four wide column">
+          <h4>Employee Summary</h4>
+
+          <div class="ui raised fluid segment top-segment">
+            <div class="text-center">
+              <h3 style="padding-top:1em;">Active Employees</h3>
+              <h1 style="margin-top:1em;padding-bottom:1em;">{{num}}</h1>
+              <hr style="margin-top:2em;">
+              <div class="extra content">
+                <a style="color:blue;" href="{% url 'employee_list' %}">View Employees</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="four wide column">
+          <h4>Next Disbursement</h4>
+          <div class="ui raised fluid segment top-segment" style="margin-top:1em;">
+            <div class="text-center">
+              <h3 >Next Pay Day</h3>
+              <h1 style="padding-bottom:-0.5em;"><b>31</b></h1><h1><b>March, 2019</b></h1>
+              <hr>
+              <div class="extra content">
+                <p style="color:blue;">{{num}} Employees</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="right floated ui button " style="margin-left:85%;" data-toggle="modal" data-target="#employee-modal"> Create PaySlip</button>
+        <div class="modal fade" id="employee-modal" tabindex="-1" role="dialog" aria-labelledby="employee-modalTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="subject-modalTitle">Choose Employee </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="ui list">
+                                               {% for employee in  employees %}
+                                                <div class="item">
+                                                  <div class="left floated five column">
+                                                      <p><b>{{ employee.full_name }}</b></p>
+                                                  </div>
+                                                  <div class="right floated five column">
+                                                    <a href="{% url 'payslip_create' employee.first_name employee.last_name%}">
+                                                        <button class="ui icon button"><i class="fas fa-arrow-right"></i></button>
+                                                    </a>
+                                                  </div>
+
+                                                </div>
+                                                {% endfor %}
+
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="ui button" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+        <table class="ui striped table">
+                  <thead style="background-color: rgb(87, 79, 201)!important;">
+                      <th>
+                          PaySlip
+                      </th>
+                      <th>
+                          Employee
+                      </th>
+                      <th>
+                          PaySlip Name
+                      </th>
+                      <th>
+                          Date Created
+                      </th>
+                      <th>
+                          Editable
+                      </th>
+                      <th>
+                          View
+                      </th>
+                      <th>
+                          Delete
+                      </th>
+
+
+                  </thead>
+                  <tbody>
+                      {% for payslip in payslips %}
+                          <tr class="selectable">
+                              <td class="text-center"> <i class="far fa-user-circle user"></i></td>
+                              <td> {{ payslip.employee.full_name}} </td>
+                              <td> {{ payslip.name }}</td>
+                              <td> {{ payslip.date_created|date:"d M Y" }}</td>
+                              <td class="text-center">
+                                  {% if payslip.editable %}
+                                  <i class="far fa-check-circle check"></i>
+                                  {% endif %}
+                              </td>
+                              <td class="text-center"> <a href="{% url 'payslip_review' payslip.employee.first_name payslip.employee.last_name payslip.name %}"><i class="fas fa-eye eye"></i></a> </td>
+                              <td class="text-center"> <i class="fa fa-trash bin" data-toggle="modal" data-target="#slip-modal-{{payslip.name}}"> </i>
+				<div class="modal fade" id="slip-modal-{{payslip.name}}" tabindex="-1" role="dialog" aria-labelledby="delete-modalTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="subject-modalTitle">Delete {{ payslip.name }} </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="ui list">
+                                                <div class="item">
+                                                  <div class="left floated five column">
+                                                      <a href="{% url 'payslip_delete' payslip.name %}">
+                                                          <button type="button" class="ui blue button">
+                                                              Yes
+                                                          </button>
+                                                      </a>
+                                                  </div>
+                                                  <div class="right floated five column">
+                                                      <button type="button" class="ui red button close" data-dismiss="modal" aria-label="Close">
+                                                          No
+                                                      </button>
+                                                  </div>
+
+                                                </div>
+
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="ui button" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+
+                              </td>
+
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+        <a style="margin-right:85%;" href="{% url 'payslips_list' %}"><button class="right floated ui button">View More</button></a>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
