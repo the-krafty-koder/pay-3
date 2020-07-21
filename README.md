@@ -1,7 +1,7 @@
 # Pay-3
 A HR and Payroll Management application
 
-![alt text](https://github.com/the-krafty-koder/pay-3/img.png?raw=true)
+![alt text](https://github.com/the-krafty-koder/pay-3/blob/master/img.png?raw=true)
 
 [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 # Features!
