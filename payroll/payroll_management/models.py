@@ -22,6 +22,13 @@ class CustomDeduction(models.Model):
         self.amount = -self.amount
         super(CustomDeduction,self).save(*args,**kwargs)
 
+class PaySlipManager(models.Manager):
+
+    def create(self,**obj_data):
+
+        self.model.all_allowances = obj_data.get("employee").contract.allowances
+        return super().create(**obj_data)
+
 
 class PaySlip(models.Model):
     name = models.CharField(max_length=50)
@@ -33,9 +40,11 @@ class PaySlip(models.Model):
     date_created = models.DateTimeField(auto_now_add=False,null=True)
     editable = models.BooleanField()
 
+    objects = PaySlipManager()
+
     status = PickledObjectField(null=True,default="Update")
 
-    all_allowances = PickledObjectField(null=True,default=dict)
+    all_allowances = PickledObjectField(null=True)
     all_deductions = PickledObjectField(null=True,default=dict)
     all_taxation = PickledObjectField(null=True,default=dict) # a dictionary of calculation values
     total_allowances = models.FloatField(default=0)
@@ -104,7 +113,7 @@ class PaySlip(models.Model):
 
 
         if basic != None:
-            calculator = PaySlipCalculator(basic)
+            calculator = PaySlipCalculator(basic,allowances)
             self.basic_salary = basic
         else:
             calculator = PaySlipCalculator(self.basic_salary,allowances,deductions,admissible)
@@ -126,7 +135,8 @@ class PaySlip(models.Model):
     def save(self,*args,**kwargs):
         if self.status == "Update":
             basic_salary = self.employee.contract.base_salary
-            self.update_calculations(basic=basic_salary)
+            self.all_allowances = self.employee.contract.allowances
+            self.update_calculations(basic=basic_salary,allowances=self.employee.contract.allowances)
             self.status = "AfterUpdate"
 
         self.total_allowances = sum(self.all_allowances.values())

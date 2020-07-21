@@ -15,13 +15,14 @@ def create_employee(request,employee_name=None):
     """
         Loads view to create an employee
     """
-
     employee = None
+    
     if employee_name != None:
             employee = EmployeeBuilder.get_employee_static(employee_name)
 
     if request.method=="POST":
         form = EmployeeForm(request.POST,request.FILES)
+        
 
         if employee != None:
             form = EmployeeForm(request.POST,request.FILES,instance=employee)
@@ -42,8 +43,8 @@ def create_employee(request,employee_name=None):
             form = EmployeeForm(instance=employee,contract=employee.contract)
         else:
             form = EmployeeForm()
-            education_form,document_form = EducationForm(),DocumentForm()
-            education,documents = None,None
+            education_form,document_form = EducationForm(), DocumentForm()
+            education,documents= None,None
 
     return render(request,"create_employee.html",{"form":form,
                                                   "document_form":document_form,
@@ -106,7 +107,7 @@ def create_employee_contract(request,employee_firstname=None,employee_lastname=N
             if addition_form.is_valid() :
                 saved = addition_form.save(commit=False)
                 encoded_string,calculations = return_encoded({"custom_allowance":custom_allowance},"ca",saved)
-                contract.allowances = calculations
+                contract.allowances = {allowance.get("name"):allowance.get("amount") for allowance in calculations.get("custom_allowance")}
                 contract.save()
                 return redirect(f'/employee/create_contract/{employee_firstname}/{employee_lastname}/?{encoded_string}')
                 #return HttpResponse({convert_to_dict(calculations["custom_allowance"]).values()})

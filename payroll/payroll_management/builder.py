@@ -51,6 +51,8 @@ class PaySlipBuilder:
 
     def edit_payslip(self,payslip_name,new_allowances,new_deductions):
         payslip = self.get_payslip(payslip_name)
+        initial_allowances = payslip.all_allowances
+        new_allowances.update(initial_allowances)
 
         if new_allowances:
             payslip.set_all_allowances(new_allowances)

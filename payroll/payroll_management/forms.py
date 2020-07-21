@@ -2,12 +2,15 @@ from django import forms
 from django.forms import ModelForm
 
 from .models import PaySlip,CustomAllowance,CustomDeduction
+from picklefield.fields import PickledObjectField
 
 class PaySlipForm(ModelForm):
     nhif = forms.IntegerField()
     nssf = forms.IntegerField()
     total_deductions = forms.FloatField()
     total_allowances = forms.FloatField()
+
+    all_allowances = PickledObjectField()
 
     taxable = forms.FloatField()
     relief = forms.FloatField()

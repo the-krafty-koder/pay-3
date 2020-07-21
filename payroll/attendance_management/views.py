@@ -135,3 +135,6 @@ class DailyAttendanceDetailView(DetailView):
 
     def get_queryset(self):
         return get_object_or_404(DailyAttendance,id=self.kwargs['id'])
+
+    
+

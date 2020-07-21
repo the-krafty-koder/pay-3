@@ -40,17 +40,12 @@
                       </div>
 		      <b><label style="font-size:95%">Allowances</label></b>
                       <div class="fields">
-
-
-		                {% for key in custom_allowance %}
-		                <div class="four wide field">
-		                  <label>{{ key.name }}</label>
-		                  <input type="text" value="{{ key.amount }}">
-		                </div>
-		                {% endfor %}
-
-
-
+                    {% for key,item in initial_allowances.items %}
+                    <div class="four wide field">
+                      <label>{{ key }}</label>
+                      <input type="text" value="{{ item }}">
+                    </div>
+                    {% endfor %}
                       </div>
 		      <div class="fields">
                         <div class="six wide field">

@@ -121,7 +121,7 @@
               <div class="six wide field right floated">
                 <div class="payslip-item-wrapper">
                     <div class="payslip-item fluid">
-                        <p>{{ payslip.relief|floatformat:2  }}</p>
+                        <p>{{ form.relief|floatformat:2  }}</p>
                     </div>
                 </div>
               </div>
@@ -162,7 +162,10 @@
                 </div>
               </div>
               <div class="fields">
-                {% for key,item in form.deductions.items %}
+                {% for key,item in form.all_deductions.items %}
+                {% if key == "NHIF" %}
+                 <div></div>
+                {% else %}
                 <div class="four wide field">
                   <label>{{ key }}</label>
                   <div class="payslip-item-wrapper">
@@ -171,6 +174,7 @@
                       </div>
                   </div>
                 </div>
+                {% endif %}
                 {% endfor %}
               </div>
               <div class="fields">

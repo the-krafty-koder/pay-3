@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% block styles %}
+ <link rel="stylesheet" type="text/css" href="{% static "css/list_payslips.css" %}">
+{% endblock %}
 {% block body %}
 
   <div class="segment" style="margin-top:2em;margin-left:10%;">
@@ -42,7 +45,7 @@
     <div class="ui grid">
       {% for key,item in payslip_list.items %}
       <div class="row">
-	      <h3 class="ui dividing header" style="margin-bottom:0.5em;margin-left:-1em;"><b>{{ key }}</b></h3>
+	      <h3 class="ui dividing header"><b>{{ key }}</b></h3><p></p>
 
 		      <div class="row">
             <div class="ui link cards">
@@ -58,6 +61,8 @@
 				                <div class="right floated six wide column">
 
 				                 <i class="right floated fas fa-check-circle" style="color:#7386D5;"></i>
+                         <i class="right floated fa fa-trash bin" data-toggle="modal" data-target="#slip-modal-{{slip.name}}" style="margin-right:1em;color:rgb(145, 7, 30);"> </i>
+                         
 				                </div>
 				              </div>
 				            </div>
@@ -72,6 +77,41 @@
                   </span>
 			          </div>
 			        </div>
+              <div class="modal fade" id="slip-modal-{{slip.name}}" tabindex="-1" role="dialog" aria-labelledby="delete-modalTitle" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="subject-modalTitle">Delete {{ slip.name }} </h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="ui list">
+                                                <div class="item">
+                                                  <div class="left floated five column">
+                                                      <a href="{% url 'payslip_delete' slip.name %}">
+                                                          <button type="button" class="ui blue button">
+                                                              Yes
+                                                          </button>
+                                                      </a>
+                                                  </div>
+                                                  <div class="right floated five column">
+                                                      <button type="button" class="ui red button close" data-dismiss="modal" aria-label="Close">
+                                                          No
+                                                      </button>
+                                                  </div>
+
+                                                </div>
+
+                                            </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="ui button" data-dismiss="modal">Close</button>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
 			       {% endfor %}
 			      </div>
           </div>

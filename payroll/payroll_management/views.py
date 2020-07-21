@@ -103,14 +103,15 @@ def create_payslip(request,employee_firstname,employee_lastname,payslip_name=Non
                 return HttpResponse(form.errors)
 
     else:
-        form = PaySlipForm(instance=payslip)
+        form = PaySlipForm(instance=payslip,type="initial",initial={"all_allowances":payslip.all_allowances})
         addition_form = CustomAllowanceForm()
         deduction_form = CustomDeductionForm()
 
     return render(request,"create_payslip.html",
                   {"form":form,"addition_form":addition_form,
                   "deduction_form":deduction_form,"custom_allowance":custom_allowance,
-                  "custom_deduction":custom_deduction
+                  "custom_deduction":custom_deduction,
+                  "initial_allowances":payslip.all_allowances
                   })
 
 def review_payslip(request,employee_firstname,employee_lastname,payslip_name):
@@ -131,8 +132,8 @@ def list_payslips(request,employee_name=None):
         form = SearchForm(request.POST)
 
         if form.is_valid():
-            cd = form.cleaned_data["search_text"]
-            return redirect('payslips_list',employee_name=cd)
+            employee_text = form.cleaned_data["search_text"]
+            return redirect('payslips_list',employee_name=employee_text)
         else:
             return HttpResponse(form.errors)
     else:
@@ -162,7 +163,10 @@ def render_pdf_view(request,payslip_name):
     payslip = PaySlipBuilder.get_payslip_static(payslip_name)
 
     template_path = 'payslip_template.html'
-    context = {"payslip":payslip}
+    company_name = request.user.firm_name
+    phone_number = payslip.employee.phone_number
+    email = payslip.employee.email
+    context = {"payslip":payslip,"company_name":company_name,"email":email,"phone_number":phone_number}
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename={payslip_name}.pdf'

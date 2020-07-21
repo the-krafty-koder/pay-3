@@ -175,7 +175,8 @@ class PAYE(Taxation):
                     update_taxable(self.taxable_pay*percentage,self.iteration_val)
 
         if self.taxable_pay <= self.lower_limit:
-            return self.taxable_pay * 0.1
+            value = self.taxable_pay * 0.1
+            self.taxable_pay_set = self.taxable_pay_set.__add__((value,))
 
         elif self.lower_limit < self.taxable_pay < self.upper_limit:
             update_taxable(self.taxable_pay*0.1,self.lower_limit)
@@ -186,7 +187,8 @@ class PAYE(Taxation):
 
             update_taxable_in_range(0.3)
         else :
-            return self.taxable_pay * 0.3
+            value = self.taxable_pay * 0.3
+            self.taxable_pay_set = self.taxable_pay_set.__add__((value,))
 
         return -sum(self.taxable_pay_set)
 

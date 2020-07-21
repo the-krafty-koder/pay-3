@@ -1,0 +1,7 @@
+Issues
+
+1.FirmProfile Bug
+  - System does not retain original firm profile once name is changed.
+
+2.Create employee login to attendance.
+3.Create proper attendance records.

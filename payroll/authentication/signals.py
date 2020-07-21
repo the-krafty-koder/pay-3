@@ -23,3 +23,4 @@ def create_employee_user(sender,instance,**kwargs):
         )
 
         send_login_credentials(instance,password)
+

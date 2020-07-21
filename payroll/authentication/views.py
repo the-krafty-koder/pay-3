@@ -96,3 +96,6 @@ def employee_login(request,invalid=False):
         form = login_form()
     return render(request, 'login.html', {'form':form,'is_valid':is_valid })
 
+def get_logged_in_user(request):
+    return request.user.firm_name
+

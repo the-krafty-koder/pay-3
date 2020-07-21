@@ -4,11 +4,17 @@ from django.forms import ModelForm
 from .models import *
 
 level_choice_fields = [
-    ('fulltime','Full Time',),
-    ('parttime','Part Time'),
-    ('fixedterm','Fixed Term')
+    ('Full-time','Full Time',),
+    ('Part-time','Part Time'),
+    ('Fixed-term','Fixed Term')
+]
+gender_choice_fields = [
+    ('Male','Male',),
+    ('Female','Female'),
+    ('Other','Other')
 ]
 class EmployeeForm(ModelForm):
+    gender = forms.ChoiceField(choices=gender_choice_fields)
 
     def __init__(self,*args,**kwargs):
         contract = kwargs.pop("contract",None)
@@ -24,7 +30,7 @@ class EmployeeForm(ModelForm):
             "nhif_number":forms.Textarea(attrs={'rows':1,'cols':20}),
             "nssf_number":forms.Textarea(attrs={'rows':1,'cols':20}),
             "kra_pin":forms.Textarea(attrs={'rows':1,'cols':20}),
-            "home_address":forms.Textarea(attrs={'rows':1,'cols':20})
+            "home_address":forms.Textarea(attrs={'rows':1,'cols':20}),
         }
         exclude = ["contract","firm","full_name"]
 
@@ -56,13 +62,11 @@ class EditEmployeeForm(ModelForm):
         exclude = ["firm","full_name"]
 
 class ContractForm(ModelForm):
+    contract_type = forms.ChoiceField(choices=level_choice_fields)
 
     class Meta:
         model = Contract
         exclude = ["allowances"]
-        """widgets = {
-            "contract_type":forms.ChoiceField(choices=level_choice_fields),
-        }"""
 
 class SearchForm(forms.Form):
 

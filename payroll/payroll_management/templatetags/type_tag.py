@@ -17,4 +17,6 @@ def get_company_name(object):
 
 @register.filter(name='company_logo')
 def get_logo_url(object):
-    return FirmProfile.objects.get(firm_name="Mater Company").logo.url
+	""" Gets firm_name from logged in user and obtains firm logo"""
+
+	return FirmProfile.objects.get(firm_name="Mater Compan").logo.url

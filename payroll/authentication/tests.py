@@ -1,11 +1,12 @@
-"""
+
+import requests
 from datetime import datetime as date
 from django.test import TestCase
 from .models import UserEmployee
 from employee_management.models import Firm,Employee,Contract
 
 from .mail import send_login_mail
-
+"""
 
 # Create your tests here.
 def setUp(self):
@@ -61,3 +62,10 @@ class TestIfMailSent(TestCase):
         self.assertEqual(Employee.objects.filter(full_name=self.new_employee.full_name).count(),1)
         self.assertEqual(UserEmployee.objects.filter(name=self.new_employee.full_name).count(),1)
 """
+from .views import get_logged_in_user
+
+class TestUser(TestCase):
+    """docstring for TestUser"""
+    
+    def test_get_logged_in_user(self):
+        self.assertEqual(requests.get("http://127.0.0.1:8000/authentication/logged_in_user").text,"Mater Company")

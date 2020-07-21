@@ -68,12 +68,12 @@
     <!-- Content for Static Frame 'header_frame' -->
      <div id="header_content">
         <div id="company_details">
-          <div style="color:#7386D5" ><h1>Company Name<h1></div>
+          <div><h1>{{ company_name }}<h1></div>
           <h4>Address : 57,Kisumu</h4>
-          <p style="color:#7386D5">Phone Number: 079875846475          Email : company@gmail.com ]</p>
+          <p>Phone Number: {{ phone_number }}          Email : {{ email }} </p>
         </div>
         <div id="payslip_details">
-          <h1 style="color:#7386D5;font-size:20pt;" >PAYSLIP</h1>
+          <h1 style="font-size:20pt;" >PAYSLIP</h1>
         </div>
 
      </div><br>
@@ -87,7 +87,7 @@
 
      <div id="employee_info">
        <div id="employee_content" >
-		<div style="background-color:#7386D5;padding-top:5pt;padding-left:5pt;"><h1>EMPLOYEE INFORMATION<h1></div>
+		<div style="background-color:#f5f5f5;padding-top:5pt;padding-left:5pt;"><h1>EMPLOYEE INFORMATION<h1></div>
 	       <h3><b>Full Name:<b> {{ payslip.employee.full_name }}</h3></b>
 	       <p>Address : {{ payslip.employee.home_address }}</p>
 	       <p>Phone Number: {{ payslip.employee.phone_number }}</p>

@@ -11,7 +11,7 @@ def create_firm_profile(request):
     if request.method=="POST":
         form = FirmProfileForm(request.POST,request.FILES)
 
-        if form.is_valid():
+        if form.is_valid() and form.firm_name == request.user.firm_name:
             form.save()
             return redirect('profile_firm_edit')
         else:
