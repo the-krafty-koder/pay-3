@@ -1,2 +1,4 @@
 sendgrid.env
 sendgrid.env
+payroll/db.sqlite3
+payroll/payroll_issues.txt
