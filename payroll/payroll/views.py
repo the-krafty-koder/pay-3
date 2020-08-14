@@ -33,7 +33,7 @@ def edit_firm_profile(request):
     firm_profile = FirmProfile.objects.get(firm_name=request.user.firm_name)
 
     if request.method=="POST":
-        form = EditFirmProfileForm(request.POST or None,request.FILES,instance=firm_profile)
+        form = EditFirmProfileForm(request.POST or None, request.FILES, instance=firm_profile)
 
         if form.is_valid():
             form.save()

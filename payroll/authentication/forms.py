@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-
-from .models import *
+from .models import Firm
 
 class login_form(forms.Form):
 
@@ -11,7 +10,8 @@ class login_form(forms.Form):
         "type": "password"
     }
 
-    password = forms.CharField(min_length=8,widget=forms.TextInput(attrs=attrs))
+    password = forms.CharField(min_length=8, widget=forms.TextInput(attrs=attrs))
+
 
 class signup_form(forms.Form):
     user_name = forms.CharField(max_length=45)
@@ -20,12 +20,13 @@ class signup_form(forms.Form):
     attrs = {
         "type": "password"
     }
-    password = forms.CharField(min_length=8,widget=forms.TextInput(attrs=attrs))
+    password = forms.CharField(min_length=8, widget=forms.TextInput(attrs=attrs))
+
 
 class firm_form(ModelForm):
     class Meta:
         model = Firm
         widgets = {
-            "address":forms.Textarea(attrs={'rows':1,'cols':20})
+            "address": forms.Textarea(attrs={'rows': 1, 'cols': 20})
         }
         exclude = ["firm_profile"]

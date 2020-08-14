@@ -5,7 +5,9 @@ from xhtml2pdf import pisa
 
 from django.template.loader import get_template
 from django.template import Context
-from django.shortcuts import render,HttpResponse,redirect
+from django.shortcuts import (render,
+                              HttpResponse,
+                              redirect)
 from django.urls import reverse
 
 from employee_management.builder import EmployeeBuilder
@@ -18,7 +20,7 @@ from .builder import PaySlipBuilder
 
 # Create your views here.
 
-def commit(form,name):
+def commit(form, name):
     saved = form.save(commit=False)
     saved.employee = name
     saved.save()
@@ -26,7 +28,7 @@ def commit(form,name):
 
 def convert_to_dict(series):
     result = {}
-    for key in series:result.update({key["name"]:key["amount"]})
+    for key in series: result.update({key["name"]:key["amount"]})
     return result
 
 def return_encoded(calculations,type,form):
@@ -41,23 +43,22 @@ def return_encoded(calculations,type,form):
     return urlencode(calculations),calculations
 
 
-
-def create_payslip(request,employee_firstname,employee_lastname,payslip_name=None):
+def create_payslip(request, employee_firstname, employee_lastname, payslip_name=None):
 
     employee = EmployeeBuilder.get_employee_static("{} {}".format(employee_firstname,employee_lastname))
     custom_allowance = ast.literal_eval(request.GET.get("custom_allowance","[]"))
     custom_deduction = ast.literal_eval(request.GET.get("custom_deduction","[]"))
 
-    if payslip_name !=None:
+    if payslip_name is not None:
         payslip = PaySlipBuilder.get_payslip_static(payslip_name)
     else:
         payslip = PaySlipBuilder(employee).create_payslip()
 
     def return_encoded_string(custom_type=None):
-        encoded_string,calculations = return_encoded(
+        encoded_string, calculations = return_encoded(
                                                      {"custom_allowance":custom_allowance,
                                                       "custom_deduction":custom_deduction},
-                                                      custom_type,saved
+                                                      custom_type, saved
                                                     )
 
         PaySlipBuilder(employee).edit_payslip(payslip.name,
@@ -75,8 +76,8 @@ def create_payslip(request,employee_firstname,employee_lastname,payslip_name=Non
 
         if "addition_button" in request.POST:
 
-            if addition_form.is_valid() :
-                saved = commit(addition_form,employee.full_name)
+            if addition_form.is_valid():
+                saved = commit(addition_form, employee.full_name)
                 encoded_string = return_encoded_string("ca")
                 return redirect(f'/payslip/create_payslip/{employee_firstname}/{employee_lastname}/{payslip.name}/?{encoded_string}')
             else:
@@ -96,14 +97,16 @@ def create_payslip(request,employee_firstname,employee_lastname,payslip_name=Non
             if form.is_valid():
                 PaySlipBuilder.delete_second_last()
                 form.save()
-                return redirect('payslip_review',employee_firstname=employee.first_name,
-                                employee_lastname=employee.last_name,payslip_name=payslip.name
+                return redirect('payslip_review', employee_firstname=employee.first_name,
+                                employee_lastname=employee.last_name, payslip_name=payslip.name
                        )
             else:
                 return HttpResponse(form.errors)
 
     else:
-        form = PaySlipForm(instance=payslip,type="initial",initial={"all_allowances":payslip.all_allowances})
+        form = PaySlipForm(instance=payslip,
+                           type="initial",
+                           initial={"all_allowances":payslip.all_allowances})
         addition_form = CustomAllowanceForm()
         deduction_form = CustomDeductionForm()
 
@@ -144,10 +147,16 @@ def list_payslips(request,employee_name=None):
 def dashboard_payroll(request):
     slips = PaySlip.objects.all()
     employees = Employee.objects.all()
-    allowances,deductions = sum((slip.total_allowances for slip in slips)), sum((slip.total_deductions for slip in slips))
+    allowances,deductions = sum((slip.total_allowances for slip in slips)),
+    sum((slip.total_deductions for slip in slips))
+
     payslips = PaySlip.objects.all().order_by("date_created")[:15]
     num = Firm.objects.get(firm_name="Jos Org").get_number_employees()
-    context = {"payslips":payslips,"allowances":allowances,"deductions":deductions,"num":num,"employees":employees}
+    context = {"payslips":payslips,
+               "allowances":allowances,
+               "deductions":deductions,
+               "num":num,
+               "employees":employees}
 
     return render(request,"payroll_dashboard.html",context)
 

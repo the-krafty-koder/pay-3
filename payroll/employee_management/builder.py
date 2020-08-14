@@ -3,20 +3,19 @@ from .forms import *
 
 class EmployeeBuilder:
 
-    def __init__(self,employee_name):
+    def __init__(self, employee_name):
         self.employee_name = employee_name
         self.employee = self.get_employee()
 
-
     @staticmethod
-    def create_employee(form_object,contract,firm):
+    def create_employee(form_object, contract, firm):
         employee = Employee.objects.create(
             first_name=form_object['first_name'],
             last_name=form_object['last_name'],
             home_address=form_object['home_address'],
             phone_number=form_object['phone_number'],
-            identification_number = form_object['identification_number'],
-            gender = form_object['gender'],
+            identification_number=form_object['identification_number'],
+            gender=form_object['gender'],
             email=form_object['email'],
             image=form_object['image'],
             kra_pin=form_object['kra_pin'],
@@ -24,11 +23,10 @@ class EmployeeBuilder:
             nssf_number=form_object['nssf_number'],
             department=form_object['department'],
             is_manager=form_object['is_manager'],
-            contract = contract,
-            firm = firm
+            contract=contract,
+            firm=firm
         )
         return employee
-
 
     @staticmethod
     def list_employees(employee_name):
@@ -44,8 +42,8 @@ class EmployeeBuilder:
     def edit_employee(self,post_object):
 
         try:
-            edited_employee = EditEmployeeForm(post_object,instance=self.employee)
-            #edited_employee.contract = contract
+            edited_employee=EditEmployeeForm(post_object,instance=self.employee)
+            # edited_employee.contract = contract
             edited_employee.save()
         except Exception as e:
             return e.__str__()
@@ -53,8 +51,8 @@ class EmployeeBuilder:
     def delete_employee(self):
         self.employee.delete()
 
-    def add_education(self,education_object):
+    def add_education(self, education_object):
         self.employee.education.add(education_object)
 
-    def remove_education(self,education_object):
+    def remove_education(self, education_object):
         self.employee.education.discard(education_object)

@@ -9,11 +9,11 @@ from .tasks import send_login_credentials
 
 
 @receiver(post_save, sender=Employee)
-def create_employee_user(sender,instance,**kwargs):
+def create_employee_user(sender, instance, **kwargs):
 
-    if kwargs.get("created")==True:
+    if kwargs.get("created") is True:
         employee_id = len(Employee.objects.all())
-        password = GeneratePassCode(instance.firm.firm_name,employee_id).get_code()
+        password = GeneratePassCode(instance.firm.firm_name, employee_id).get_code()
 
         UserEmployee.objects.create_employee(
             instance.full_name,
@@ -22,5 +22,4 @@ def create_employee_user(sender,instance,**kwargs):
             password
         )
 
-        send_login_credentials(instance,password)
-
+        send_login_credentials(instance, password)

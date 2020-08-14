@@ -3,7 +3,7 @@ from django.core.signing import TimestampSigner
 
 class GeneratePassCode:
 
-    def __init__(self,firm_name,employee_id):
+    def __init__(self, firm_name, employee_id):
         self.firm_name = firm_name
         self.employee_id = employee_id
 

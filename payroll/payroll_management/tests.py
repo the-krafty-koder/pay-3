@@ -56,11 +56,15 @@ class TestPayslipBuilder(TestCase):
             nssf_number="65347673",
             department="Sales",
             is_manager=False,
-            contract = Contract.objects.create(contract_type="Permanent",base_salary=20000.00),
-            firm = Firm.objects.create(firm_name="Sun System",address="53, Kisumu")
+            contract = Contract.objects.create(contract_type="Permanent",
+                                               base_salary=20000.00),
+            firm = Firm.objects.create(firm_name="Sun System",
+                                       address="53, Kisumu")
         )
-        self.payslip = PaySlip.objects.create(name="Omo Ous",employee=self.new_employee,date_created=datetime.datetime.now().date(),editable=False)
-
+        self.payslip=PaySlip.objects.create(name="Omo Ous",
+                                              employee=self.new_employee,
+                                              date_created=datetime.datetime.now().date(),
+                                              editable=False)
 
     def testPayslipBuilderFunction(self):
         slip = PaySlipBuilder(self.new_employee).create_payslip()
@@ -75,7 +79,6 @@ class TestPayslipBuilder(TestCase):
     def testIfDeductionsSetOnSaving(self):
         self.assertEqual(self.payslip.all_deductions,{"NSSF":-10800,"NHIF":-750})
 
-    """
     def testBeforeAtomicity(self):
         self.assertEqual(self.payslip.status,None)
 
@@ -103,7 +106,6 @@ class TestPayslipBuilder(TestCase):
         self.assertEqual(payslip.gross_salary,32500)
 
 
-
 class TestCalculations(TestCase):
 
     def setUp(self):
@@ -112,7 +114,7 @@ class TestCalculations(TestCase):
     def testNHIF(self):
         result = NHIF(self.base).get_value()
         self.assertTrue(result)
-        self.assertEqual(result,-150)
+        self.assertEqual(result, -150)
 
     def testNSSF(self):
         result = NSSF(self.base).get_value()
@@ -129,7 +131,3 @@ class TestCalculations(TestCase):
 
         result = PAYE(20000,{}).get_value()
         self.assertEqual(result,3540.4)
-
-        #result = PAYE(45000,{}).get_value()
-        #self.assertEqual(result,20648.05)
-    """
