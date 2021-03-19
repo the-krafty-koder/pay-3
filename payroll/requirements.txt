@@ -16,7 +16,7 @@ Django==3.0.3
 django-ipware==2.1.0
 django-picklefield==2.1.1
 django-rest-framework==0.1.0
-djangorestframework==3.11.0
+djangorestframework==3.11.2
 get==2019.4.13
 html5lib==1.0.1
 httplib2==0.9.2
