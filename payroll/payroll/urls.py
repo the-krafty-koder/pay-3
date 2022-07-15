@@ -17,9 +17,11 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
+from employee_management.views import create_employee
 from .views import *
 
 urlpatterns = [
+    path('', create_employee, name='landing'),
     path('admin/', admin.site.urls),
     path('employee/', include('employee_management.urls')),
     path('payslip/', include('payroll_management.urls')),

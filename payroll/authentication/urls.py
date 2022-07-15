@@ -8,6 +8,7 @@ from .views import (loginto,
                     get_logged_in_user)
 
 urlpatterns = [
+    path('', loginto, name='login_default'),
     path('login', loginto, name="login"),
     path('login/<str:invalid>', loginto, name="login"),
     path('signup', signup, name="signup"),
